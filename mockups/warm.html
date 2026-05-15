@@ -1,0 +1,332 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>feeddiary — warm card</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,500;9..144,700&family=Inter:wght@400;500;600&family=Noto+Sans+KR:wght@400;500;600&display=swap');
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    margin: 0;
+    background: #ECE3D4;
+    font-family: 'Inter', 'Noto Sans KR', sans-serif;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+  }
+
+  .card {
+    width: 1080px;
+    height: 1350px;
+    background:
+      radial-gradient(circle at 85% 12%, rgba(196, 124, 88, 0.18) 0%, transparent 38%),
+      radial-gradient(circle at 12% 88%, rgba(143, 161, 124, 0.16) 0%, transparent 42%),
+      linear-gradient(180deg, #F4ECDC 0%, #ECE0CB 100%);
+    padding: 88px 96px;
+    color: #2D2418;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      radial-gradient(circle at 20% 30%, rgba(0,0,0,0.012) 1px, transparent 1px),
+      radial-gradient(circle at 70% 80%, rgba(0,0,0,0.012) 1px, transparent 1px);
+    background-size: 4px 4px;
+    pointer-events: none;
+  }
+
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 56px;
+  }
+
+  .brand {
+    font-family: 'Fraunces', serif;
+    font-size: 32px;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    font-style: italic;
+  }
+
+  .brand-dot {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #C47C58;
+    margin-right: 8px;
+    vertical-align: middle;
+    transform: translateY(-3px);
+  }
+
+  .week {
+    font-size: 18px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: #6B5E48;
+    font-weight: 500;
+  }
+
+  .hero {
+    margin-bottom: 64px;
+  }
+
+  .hero-label {
+    font-size: 18px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: #6B5E48;
+    margin-bottom: 12px;
+    font-weight: 500;
+  }
+
+  .hero-number {
+    font-family: 'Fraunces', serif;
+    font-size: 192px;
+    font-weight: 300;
+    line-height: 0.92;
+    letter-spacing: -0.04em;
+  }
+
+  .hero-suffix {
+    font-family: 'Fraunces', serif;
+    font-size: 56px;
+    font-weight: 300;
+    font-style: italic;
+    color: #6B5E48;
+    margin-top: 8px;
+    letter-spacing: -0.01em;
+  }
+
+  .divider {
+    height: 1px;
+    background: #B5A88E;
+    opacity: 0.5;
+    margin: 0 0 48px 0;
+  }
+
+  .section-label {
+    font-size: 16px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: #6B5E48;
+    margin-bottom: 28px;
+    font-weight: 500;
+  }
+
+  .categories {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    margin-bottom: 56px;
+  }
+
+  .cat-row {
+    display: grid;
+    grid-template-columns: 200px 1fr 60px;
+    align-items: center;
+    gap: 24px;
+  }
+
+  .cat-name {
+    font-size: 26px;
+    font-weight: 500;
+    color: #2D2418;
+  }
+
+  .cat-bar {
+    height: 14px;
+    background: rgba(45, 36, 24, 0.08);
+    border-radius: 7px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .cat-bar-fill {
+    position: absolute;
+    inset: 0 auto 0 0;
+    border-radius: 7px;
+  }
+
+  .cat-pct {
+    font-family: 'Fraunces', serif;
+    font-size: 28px;
+    font-weight: 500;
+    text-align: right;
+    color: #2D2418;
+  }
+
+  .indices {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 48px;
+    margin-bottom: 48px;
+  }
+
+  .idx {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .idx-label-ko {
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 22px;
+    font-weight: 500;
+    color: #2D2418;
+    margin-bottom: 4px;
+  }
+
+  .idx-label-en {
+    font-size: 16px;
+    color: #6B5E48;
+    margin-bottom: 16px;
+    letter-spacing: 0.04em;
+  }
+
+  .idx-value {
+    font-family: 'Fraunces', serif;
+    font-size: 96px;
+    font-weight: 300;
+    line-height: 1;
+    letter-spacing: -0.03em;
+  }
+
+  .idx-suffix {
+    font-family: 'Fraunces', serif;
+    font-size: 28px;
+    color: #6B5E48;
+    font-style: italic;
+  }
+
+  .idx-godlife .idx-value { color: #5C7A4F; }
+  .idx-dopamine .idx-value { color: #C47C58; }
+
+  .quote {
+    margin-top: auto;
+    padding: 36px 40px;
+    background: rgba(255, 252, 245, 0.6);
+    border-left: 3px solid #C47C58;
+    border-radius: 4px;
+  }
+
+  .quote-text {
+    font-family: 'Fraunces', serif;
+    font-size: 30px;
+    font-weight: 400;
+    font-style: italic;
+    line-height: 1.4;
+    color: #2D2418;
+    letter-spacing: -0.01em;
+  }
+
+  .footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 36px;
+  }
+
+  .footer-brand {
+    font-family: 'Fraunces', serif;
+    font-size: 18px;
+    color: #6B5E48;
+    font-style: italic;
+  }
+
+  .footer-meta {
+    font-size: 14px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: #6B5E48;
+  }
+</style>
+</head>
+<body>
+<div class="card">
+
+  <div class="header">
+    <div class="brand"><span class="brand-dot"></span>feeddiary</div>
+    <div class="week">Week of May 9</div>
+  </div>
+
+  <div class="hero">
+    <div class="hero-label">You saved</div>
+    <div class="hero-number">47</div>
+    <div class="hero-suffix">things this week.</div>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="section-label">Your taste</div>
+
+  <div class="categories">
+    <div class="cat-row">
+      <div class="cat-name">Tech</div>
+      <div class="cat-bar"><div class="cat-bar-fill" style="width: 100%; background: linear-gradient(90deg, #6B8FB5, #8FA8C7);"></div></div>
+      <div class="cat-pct">38%</div>
+    </div>
+    <div class="cat-row">
+      <div class="cat-name">Self-dev</div>
+      <div class="cat-bar"><div class="cat-bar-fill" style="width: 63%; background: linear-gradient(90deg, #5C7A4F, #8FA17C);"></div></div>
+      <div class="cat-pct">24%</div>
+    </div>
+    <div class="cat-row">
+      <div class="cat-name">Fitness</div>
+      <div class="cat-bar"><div class="cat-bar-fill" style="width: 37%; background: linear-gradient(90deg, #B86A6A, #D08C8C);"></div></div>
+      <div class="cat-pct">14%</div>
+    </div>
+    <div class="cat-row">
+      <div class="cat-name">Comedy</div>
+      <div class="cat-bar"><div class="cat-bar-fill" style="width: 32%; background: linear-gradient(90deg, #C47C58, #DBA17F);"></div></div>
+      <div class="cat-pct">12%</div>
+    </div>
+    <div class="cat-row">
+      <div class="cat-name">Cooking</div>
+      <div class="cat-bar"><div class="cat-bar-fill" style="width: 21%; background: linear-gradient(90deg, #C9A867, #DCC18B);"></div></div>
+      <div class="cat-pct">8%</div>
+    </div>
+    <div class="cat-row">
+      <div class="cat-name">Finance</div>
+      <div class="cat-bar"><div class="cat-bar-fill" style="width: 11%; background: linear-gradient(90deg, #9783A6, #B0A0BD);"></div></div>
+      <div class="cat-pct">4%</div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="indices">
+    <div class="idx idx-godlife">
+      <div class="idx-label-ko">갓생 지수</div>
+      <div class="idx-label-en">God-life index</div>
+      <div class="idx-value">72<span class="idx-suffix"> /100</span></div>
+    </div>
+    <div class="idx idx-dopamine">
+      <div class="idx-label-ko">도파민 지수</div>
+      <div class="idx-label-en">Dopamine index</div>
+      <div class="idx-value">28<span class="idx-suffix"> /100</span></div>
+    </div>
+  </div>
+
+  <div class="quote">
+    <div class="quote-text">8 hours of Rust content this week.<br/>You're embracing the borrow checker era.</div>
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">feeddiary.app</div>
+    <div class="footer-meta">May 9 — May 15</div>
+  </div>
+
+</div>
+</body>
+</html>
